@@ -13,20 +13,12 @@ FOUND_FILE=$FALSE
 echo ""
 echo "Searching for ListExamples.java..."
 
-for FILE in $FILES
-do
-    if [[ -f $FILE ]] && [[ $FILE == ./ListExamples.java ]]
-    then
-        FOUND_FILE=$TRUE
-    fi
-done
-
-if [[ $FOUND_FILE == $FALSE ]]
+if [[ -f 'ListExamples.java' ]]
 then
-    echo 'File not found!'
-    exit 1
-else
     echo 'File found!'
+else
+    echo 'File not found!'
+    exit
 fi
 
 echo ""
@@ -80,7 +72,7 @@ OUTPUT=`grep -c "OK" ./test-output.txt`
 if [[ $OUTPUT == 0 ]]
 then
     echo "Failed one or more tests."
-    cat test-output.txt
+    cat test-output.txt | grep -v -w "at" | grep -v -w "Time:" | grep -v -x ".E" | grep -v -x "JUnit version 4.13.2"
 else
     echo "Passed all tests!"
 fi
